@@ -16,14 +16,17 @@ const ManageExpense = ({ route, navigation }) => {
 
   const deleteExpenseHandler = () => {
     console.log("deleting");
+    navigation.goBack();
   };
 
   const cancelHandler = () => {
     console.log("canceling");
+    navigation.goBack();
   };
 
   const confirmHandler = () => {
     console.log("confirm");
+    navigation.goBack();
   };
 
   return (
