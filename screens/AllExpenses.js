@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet } from "react-native";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
-import { DUMMY_EXPENSES } from "../constants/mockData";
+import { useExpenses } from "../store/expense-context";
 
 const AllExpenses = () => {
-  return <ExpensesOutput expenses={DUMMY_EXPENSES} expensesPeriod="Total" />;
+  const { expenses } = useExpenses();
+  return <ExpensesOutput expenses={expenses} expensesPeriod="Total" />;
 };
 
 export default AllExpenses;
