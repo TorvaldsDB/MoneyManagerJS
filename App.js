@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import AllExpenses from "./screens/AllExpenses";
@@ -13,25 +13,28 @@ const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 const ExpensesOverview = () => {
+  const navigation = useNavigation();
   return (
     <BottomTabs.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-        headerTintColor: "white",
-        tabBarStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
-        },
-        tabBarActiveTintColor: GlobalStyles.colors.accent500,
-        headerRight: ({ tintColor }) => (
-          <IconButton
-            icon="add"
-            size={24}
-            color={tintColor}
-            onPress={() => {
-              console.log("pressed!");
-            }}
-          />
-        ),
+      screenOptions={() => {
+        return {
+          headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+          headerTintColor: "white",
+          tabBarStyle: {
+            backgroundColor: GlobalStyles.colors.primary500,
+          },
+          tabBarActiveTintColor: GlobalStyles.colors.accent500,
+          headerRight: ({ tintColor }) => (
+            <IconButton
+              icon="add"
+              size={24}
+              color={tintColor}
+              onPress={() => {
+                navigation.navigate("ManageExpense");
+              }}
+            />
+          ),
+        };
       }}
     >
       <BottomTabs.Screen
