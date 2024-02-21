@@ -1,5 +1,4 @@
 import { createContext, useContext, useReducer } from "react";
-import { DUMMY_EXPENSES } from "../constants/mockData";
 
 export const ExpensesContext = createContext({
   expenses: [],
@@ -34,7 +33,7 @@ const expensesReducer = (state, action) => {
   }
 };
 const ExpensesContextProvider = ({ children }) => {
-  const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
+  const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
   const addExpense = (expenseData) => {
     dispatch({ type: "ADD_EXPENSE", payload: expenseData });

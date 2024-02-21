@@ -3,8 +3,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../constants/styles";
 import IconButton from "../components/UI/IconButton";
 import Button from "../components/UI/Button";
+import { useExpenses } from "../store/expense-context";
 
 const ManageExpense = ({ route, navigation }) => {
+  const { deleteExpense, addExpense, updateExpense } = useExpenses();
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
@@ -15,17 +17,23 @@ const ManageExpense = ({ route, navigation }) => {
   });
 
   const deleteExpenseHandler = () => {
-    console.log("deleting");
+    deleteExpense(editedExpenseId);
     navigation.goBack();
   };
 
   const cancelHandler = () => {
-    console.log("canceling");
     navigation.goBack();
   };
 
   const confirmHandler = () => {
-    console.log("confirm");
+    if (isEditing) {
+      updateExpense(editedExpenseId, {
+        description: "test1",
+        date: new Date(),
+      });
+    } else {
+      addExpense({ description: "test", amount: 1000, date: new Date() });
+    }
     navigation.goBack();
   };
 
