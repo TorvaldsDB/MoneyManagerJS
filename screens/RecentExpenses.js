@@ -5,22 +5,24 @@ import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
 import { useExpenses } from "../store/expense-context";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 const RecentExpenses = () => {
   const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState(null);
   const { expenses, setExpenses } = useExpenses();
 
   useEffect(() => {
     async function getExpenses() {
+      setIsFetching(true);
       try {
-        setIsFetching(true);
         const expenses = await fetchExpenses();
-        setIsFetching(false);
 
         setExpenses(expenses);
       } catch (error) {
-        console.error("获取费用数据时发生错误:", error);
+        setError("Could not fetch expenses!");
       }
+      setIsFetching(false);
     }
 
     getExpenses();
@@ -31,6 +33,10 @@ const RecentExpenses = () => {
       expense.date > getDateMinusDays(new Date(), 7) &&
       expense.date <= new Date()
   );
+
+  if (error && !isFetching) {
+    return <ErrorOverlay message={error} />;
+  }
 
   if (isFetching) {
     return <LoadingOverlay />;
