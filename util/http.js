@@ -1,47 +1,37 @@
 import axios from "axios";
 
+// 定义数据库URL常量
+const BASE_URL =
+  "https://money-manager-2024-default-rtdb.asia-southeast1.firebasedatabase.app/";
+
+// 存储开支
 export const storeExpense = async (expenseData) => {
-  const response = await axios.post(
-    "https://money-manager-2024-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json",
-    expenseData
-  );
-
-  const id = response.data.name;
-
-  return id;
+  const response = await axios.post(`${BASE_URL}expenses.json`, expenseData);
+  return response.data.name;
 };
 
+// 获取开支
 export const fetchExpenses = async () => {
-  const response = await axios.get(
-    "https://money-manager-2024-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json"
-  );
+  const response = await axios.get(`${BASE_URL}expenses.json`);
 
-  const expenses = [];
-
-  for (const key in response.data) {
-    const expenseObj = {
-      id: key,
-      amount: response.data[key].amount,
-      date: new Date(response.data[key].date),
-      description: response.data[key].description,
-    };
-    expenses.push(expenseObj);
-  }
-
-  return expenses;
+  return Object.entries(response.data).map(([id, expense]) => ({
+    id,
+    amount: expense.amount,
+    date: new Date(expense.date),
+    description: expense.description,
+  }));
 };
 
+// 更新开支
 export const updateExpense = async (id, expenseData) => {
-  const response = await axios.put(
-    `https://money-manager-2024-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${id}.json`,
-    expenseData
-  );
+  const url = `${BASE_URL}expenses/${id}.json`;
+  const response = await axios.put(url, expenseData);
   return response.data;
 };
 
+// 删除开支
 export const deleteExpense = async (id) => {
-  const response = await axios.delete(
-    `https://money-manager-2024-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${id}.json`
-  );
+  const url = `${BASE_URL}expenses/${id}.json`;
+  const response = await axios.delete(url);
   return response.data;
 };
