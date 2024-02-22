@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import IconButton from "../components/UI/IconButton";
@@ -9,8 +9,10 @@ import {
   updateExpense as updateRemoteExpense,
   deleteExpense as deleteRemoteExpense,
 } from "../util/http";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
 
 const ManageExpense = ({ route, navigation }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { deleteExpense, addExpense, updateExpense, expenses } = useExpenses();
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
@@ -26,6 +28,7 @@ const ManageExpense = ({ route, navigation }) => {
   });
 
   const deleteExpenseHandler = async () => {
+    setIsSubmitting(true);
     await deleteRemoteExpense(editedExpenseId);
     deleteExpense(editedExpenseId);
     navigation.goBack();
@@ -36,6 +39,7 @@ const ManageExpense = ({ route, navigation }) => {
   };
 
   const confirmHandler = async (expenseData) => {
+    setIsSubmitting(true);
     if (isEditing) {
       updateExpense(editedExpenseId, expenseData);
       await updateRemoteExpense(editedExpenseId, expenseData);
@@ -45,6 +49,10 @@ const ManageExpense = ({ route, navigation }) => {
     }
     navigation.goBack();
   };
+
+  if (isSubmitting) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <View style={styles.container}>
