@@ -11,7 +11,7 @@ import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
 import SignupScreen from "./screens/SignupScreen";
 import ExpensesContextProvider from "./store/expense-context";
-import AuthContextProvider from "./store/auth-context";
+import AuthContextProvider, { useAuth } from "./store/auth-context";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -66,7 +66,7 @@ const ExpensesOverview = () => {
   );
 };
 
-function AuthStack() {
+const AuthStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -79,34 +79,45 @@ function AuthStack() {
       <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
   );
-}
+};
 
+const AuthenticatedStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+        headerTintColor: "white",
+      }}
+    >
+      <Stack.Screen
+        name="ExpensesOverview"
+        component={ExpensesOverview}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ManageExpense"
+        component={ManageExpense}
+        options={{ presentation: "modal" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const Navigation = () => {
+  const { isAuthenticated } = useAuth();
+  return (
+    <NavigationContainer>
+      {isAuthenticated ? <AuthenticatedStack /> : <AuthStack />}
+    </NavigationContainer>
+  );
+};
 export default function App() {
   return (
     <>
       <StatusBar style="auto" />
       <ExpensesContextProvider>
         <AuthContextProvider>
-          <NavigationContainer>
-            {/* <Stack.Navigator
-            screenOptions={{
-              headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-              headerTintColor: "white",
-            }}
-          >
-            <Stack.Screen
-              name="ExpensesOverview"
-              component={ExpensesOverview}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="ManageExpense"
-              component={ManageExpense}
-              options={{ presentation: "modal" }}
-            />
-          </Stack.Navigator> */}
-            <AuthStack />
-          </NavigationContainer>
+          <Navigation />
         </AuthContextProvider>
       </ExpensesContextProvider>
     </>

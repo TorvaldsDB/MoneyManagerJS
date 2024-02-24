@@ -22,13 +22,12 @@ function SignupScreen() {
     } finally {
       setIsAuthenticating(false);
     }
-
-    if (isAuthenticating) {
-      return <AuthLoadingOverlay message="Creating user..." />;
-    }
-
-    return <AuthContent onAuthenticate={signupHandler} />;
   };
+  if (isAuthenticating) {
+    return <AuthLoadingOverlay message="Creating user..." />;
+  }
+
+  return <AuthContent onAuthenticate={signupHandler} />;
 }
 
 export default SignupScreen;
