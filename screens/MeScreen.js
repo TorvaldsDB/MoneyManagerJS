@@ -1,16 +1,16 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../constants/styles";
+import { StyleSheet, Text, View } from "react-native";
 import IconButton from "../components/UI/IconButton";
+import { GlobalStyles } from "../constants/styles";
 import { useAuth } from "../store/auth-context";
 
 function MeScreen() {
   const { logout } = useAuth();
   return (
     <View style={styles.rootContainer}>
-      <Pressable style={styles.content} onPress={logout}>
+      <View style={styles.content}>
         <Text style={styles.title}>Exit</Text>
-        <IconButton icon="exit" size={24} color="white" />
-      </Pressable>
+        <IconButton icon="exit" size={24} color="white" onPress={logout} />
+      </View>
     </View>
   );
 }
