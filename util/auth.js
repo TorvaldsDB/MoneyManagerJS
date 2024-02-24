@@ -18,10 +18,10 @@ const authenticate = async (endpoint, email, password) => {
   return response.data.idToken;
 };
 
-export const createUser = async (email, password) => {
+export const createUser = (email, password) => {
   return authenticate("signUp", email, password);
 };
 
-export const login = async (email, password) => {
+export const login = (email, password) => {
   return authenticate("signInWithPassword", email, password);
 };

@@ -2,13 +2,18 @@ import { useState } from "react";
 import AuthContent from "../components/Auth/AuthContent";
 import { createUser } from "../util/auth";
 import AuthLoadingOverlay from "../components/UI/Auth/LoadingOverlay";
+import { useAuth } from "../store/auth-context";
 
 function SignupScreen() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  const { authenticate } = useAuth();
+
   const signupHandler = async ({ email, password }) => {
     setIsAuthenticating(true);
     try {
-      await createUser(email, password);
+      const token = await createUser(email, password);
+      authenticate(token);
     } catch (error) {
       Alert.alert(
         "Authentication failed!",
