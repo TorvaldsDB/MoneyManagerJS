@@ -12,6 +12,7 @@ import RecentExpenses from "./screens/RecentExpenses";
 import SignupScreen from "./screens/SignupScreen";
 import ExpensesContextProvider from "./store/expense-context";
 import AuthContextProvider, { useAuth } from "./store/auth-context";
+import MeScreen from "./screens/MeScreen";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -60,6 +61,18 @@ const ExpensesOverview = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" size={size} color={color} />
           ),
+        }}
+      />
+      <BottomTabs.Screen
+        name="Me"
+        component={MeScreen}
+        options={{
+          title: "User Profile",
+          tabBarLabel: "User",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
+          ),
+          headerRight: null,
         }}
       />
     </BottomTabs.Navigator>
