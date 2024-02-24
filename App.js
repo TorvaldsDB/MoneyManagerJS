@@ -11,6 +11,7 @@ import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
 import SignupScreen from "./screens/SignupScreen";
 import ExpensesContextProvider from "./store/expense-context";
+import AuthContextProvider from "./store/auth-context";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -85,8 +86,9 @@ export default function App() {
     <>
       <StatusBar style="auto" />
       <ExpensesContextProvider>
-        <NavigationContainer>
-          {/* <Stack.Navigator
+        <AuthContextProvider>
+          <NavigationContainer>
+            {/* <Stack.Navigator
             screenOptions={{
               headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
               headerTintColor: "white",
@@ -103,8 +105,9 @@ export default function App() {
               options={{ presentation: "modal" }}
             />
           </Stack.Navigator> */}
-          <AuthStack />
-        </NavigationContainer>
+            <AuthStack />
+          </NavigationContainer>
+        </AuthContextProvider>
       </ExpensesContextProvider>
     </>
   );
