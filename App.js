@@ -131,12 +131,6 @@ const Navigation = () => {
 const Root = () => {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
   const { authenticate } = useAuth();
-  // don't write the code as the following
-  // useEffect(() => {
-  //   AsyncStorage.getItem("token").then((token) => {
-  //     setAuthToken(token);
-  //   });
-  // }, [])
 
   useEffect(() => {
     const fetchStoredToken = async () => {
